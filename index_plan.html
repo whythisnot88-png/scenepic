@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="못 봤어도 괜찮아. 씬픽이 다 봤거든. 영화관 가기 전 딱 3분만."/>
+<title>씬픽 ScenePic — 못 봤어도 괜찮아</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --y:#FFB800;--b:#111111;--r:#CC3333;
+  --bg:#0D0D0D;--s1:#1A1A1A;--s2:#222222;
+  --br:#2A2A2A;--tx:#F0F0F0;--mu:#777777;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Sans KR',sans-serif;line-height:1.6;-webkit-text-size-adjust:100%;}
+a{color:inherit;text-decoration:none;}
+
+/* HERO */
+.hero{background:var(--b);border-bottom:4px solid var(--y);padding:36px 20px 28px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,#FFB80008,transparent 70%);pointer-events:none;}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.logo-sym{width:44px;height:44px;background:var(--y);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.logo-kr{font-weight:900;font-size:34px;color:var(--y);line-height:1;}
+.logo-en{font-family:'Oswald',sans-serif;font-size:13px;color:var(--mu);letter-spacing:3px;}
+.hero-hook{font-size:18px;font-weight:700;color:#fff;margin-bottom:5px;}
+.hero-hook em{color:var(--y);font-style:normal;}
+.hero-act{font-size:13px;color:var(--mu);}
+.hero-act strong{color:var(--y);}
+
+/* D-DAY */
+.dday{background:linear-gradient(90deg,#1a0808,#2a0d0d);border-bottom:1px solid #CC333340;}
+.dday-top{display:flex;align-items:center;gap:10px;padding:9px 16px 6px;overflow:hidden;}
+.dday-lbl{font-size:10px;font-weight:700;color:#FF7777;letter-spacing:2px;white-space:nowrap;flex-shrink:0;}
+.dday-ttl{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;}
+.dday-bot{display:flex;align-items:center;justify-content:space-between;padding:0 16px 9px;gap:10px;}
+.dday-cnt{display:flex;gap:5px;align-items:center;}
+.dday-box{background:#CC333325;border:1px solid #CC333650;border-radius:5px;padding:5px 7px;text-align:center;min-width:40px;}
+.dday-n{font-family:'Oswald',sans-serif;font-size:19px;font-weight:700;color:#FF7777;line-height:1;}
+.dday-u{font-size:8px;color:#FF777780;letter-spacing:1px;}
+.dday-sep{font-family:'Oswald',sans-serif;font-size:15px;color:#CC333660;}
+.dday-cta{background:var(--r);color:#fff;font-size:11px;font-weight:700;padding:7px 12px;border-radius:6px;border:none;cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:#0D0D0Dee;backdrop-filter:blur(8px);border-bottom:1px solid var(--br);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{background:none;border:none;border-bottom:3px solid transparent;color:var(--mu);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;padding:13px 14px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;}
+.nav-btn.active{color:var(--y);border-bottom-color:var(--y);}
+
+/* SECTIONS */
+.sec{display:none;padding:24px 16px;max-width:720px;margin:0 auto;}
+.sec.active{display:block;}
+.sec-ttl{font-size:22px;font-weight:900;color:var(--y);margin-bottom:4px;}
+.sec-sub{font-size:13px;color:var(--mu);margin-bottom:22px;}
+
+/* 3분 카드 */
+.card-3min{background:linear-gradient(135deg,#FFB80015,#FFB80005);border:1px solid #FFB80040;border-radius:14px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden;}
+.card-3min::before{content:'3';position:absolute;right:14px;top:-8px;font-family:'Oswald',sans-serif;font-size:110px;font-weight:700;color:#FFB80010;line-height:1;pointer-events:none;}
+.card-3min-ttl{font-size:16px;font-weight:900;color:var(--y);margin-bottom:8px;}
+.steps{display:flex;gap:0;margin-top:16px;}
+.step{flex:1;text-align:center;position:relative;}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:38%;color:var(--y);font-size:14px;}
+.step-n{width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--b);font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}
+.step-lbl{font-size:11px;font-weight:700;margin-bottom:2px;}
+.step-desc{font-size:10px;color:var(--mu);line-height:1.4;}
+
+/* 사용법 */
+.howto{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.howto-card{background:var(--s1);border:1px solid var(--br);border-radius:12px;padding:15px 10px;text-align:center;}
+.howto-ic{font-size:24px;margin-bottom:7px;}
+.howto-ttl{font-size:12px;font-weight:700;margin-bottom:4px;}
+.howto-desc{font-size:10px;color:var(--mu);line-height:1.5;}
+
+/* 왜봉이 */
+.waebong{background:var(--s1);border:1px solid var(--br);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.wb-face{width:50px;height:50px;background:var(--y);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.wb-ttl{font-size:13px;font-weight:700;margin-bottom:2px;}
+.wb-desc{font-size:11px;color:var(--mu);}
+
+/* 콘텐츠 그리드 */
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px;}
+.ccard{background:var(--s1);border:1px solid var(--br);border-radius:13px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
+.ccard:hover,.ccard:active{border-color:var(--y);transform:translateY(-2px);}
+.ccard.feat{border-color:var(--y);}
+.cthumb{height:82px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;}
+.cthumb.toy{background:linear-gradient(135deg,#1a3a5c,#0d2233);}
+.cthumb.marvel{background:linear-gradient(135deg,#5c1a1a,#330d0d);}
+.cthumb.harry{background:linear-gradient(135deg,#1a1a5c,#0d0d33);}
+.cthumb.squid{background:linear-gradient(135deg,#1a1a1a,#2d0d2d);}
+.cthumb.stranger{background:linear-gradient(135deg,#0d1a33,#1a0d33);}
+.cthumb.onepiece{background:linear-gradient(135deg,#5c2a0d,#331a0d);}
+.cthumb.naruto{background:linear-gradient(135deg,#4a3300,#2d1f00);}
+.fbadge{position:absolute;top:7px;right:7px;background:var(--r);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:3px;}
+.nbadge{position:absolute;top:7px;right:7px;background:#FFB80099;color:var(--b);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;}
+.cbody{padding:10px 12px;}
+.cttl{font-size:13px;font-weight:700;margin-bottom:2px;}
+.cmeta{font-size:10px;color:var(--mu);margin-bottom:5px;}
+.ctags{display:flex;flex-wrap:wrap;gap:3px;}
+.tag{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;}
+.tag-y{background:#FFB80018;color:var(--y);border:1px solid #FFB80035;}
+.tag-r{background:#CC333318;color:#FF7777;border:1px solid #CC333335;}
+.ctime{font-size:10px;color:var(--y);font-weight:700;margin-top:5px;}
+.coming{background:var(--s1);border:1px dashed var(--br);border-radius:13px;padding:24px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;color:var(--mu);font-size:11px;}
+.coming .ci{font-size:22px;opacity:.3;}
+.coming .cl{font-weight:700;color:#444;font-size:12px;}
+
+/* ── 토이스토리 상세 페이지 ── */
+.detail{display:none;padding:0;max-width:720px;margin:0 auto;}
+.detail.active{display:block;}
+.detail-hero{background:linear-gradient(135deg,#1a3a5c,#0d1a2e);padding:28px 20px;position:relative;overflow:hidden;}
+.detail-hero::before{content:'🧸';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.08;}
+.detail-back{background:none;border:1px solid #ffffff30;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;cursor:pointer;margin-bottom:14px;font-family:'Noto Sans KR',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+.detail-badge{display:inline-block;background:var(--r);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:1px;margin-bottom:10px;}
+.detail-ttl{font-size:26px;font-weight:900;color:#fff;margin-bottom:4px;}
+.detail-sub{font-size:13px;color:#ffffff80;}
+.detail-body{padding:20px 16px;}
+
+/* 핵심요약 배너 */
+.summary-banner{background:linear-gradient(135deg,#FFB80020,#FFB80008);border:1px solid #FFB80050;border-radius:12px;padding:18px;margin-bottom:20px;}
+.sb-ttl{font-size:14px;font-weight:900;color:var(--y);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.sb-points{display:flex;flex-direction:column;gap:7px;}
+.sb-point{display:flex;align-items:flex-start;gap:8px;font-size:13px;}
+.sb-num{width:22px;height:22px;border-radius:50%;background:var(--y);color:var(--b);font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* 편별 타임라인 */
+.ep-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.ep-card{background:var(--s1);border:1px solid var(--br);border-radius:12px;overflow:hidden;}
+.ep-header{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.ep-num{background:var(--y);color:var(--b);font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;padding:3px 9px;border-radius:4px;flex-shrink:0;}
+.ep-year{font-size:11px;color:var(--mu);flex-shrink:0;}
+.ep-name{font-size:14px;font-weight:700;flex:1;}
+.ep-arrow{font-size:12px;color:var(--mu);transition:transform .2s;}
+.ep-arrow.open{transform:rotate(180deg);}
+.ep-body{display:none;padding:0 14px 14px;border-top:1px solid var(--br);}
+.ep-body.open{display:block;}
+.ep-story{font-size:13px;color:#ccc;line-height:1.8;margin-top:12px;}
+.ep-key{margin-top:10px;padding:10px 12px;background:var(--s2);border-radius:8px;border-left:3px solid var(--y);}
+.ep-key-ttl{font-size:10px;font-weight:700;color:var(--y);margin-bottom:5px;letter-spacing:1px;}
+.ep-key-txt{font-size:12px;color:#ccc;line-height:1.7;}
+
+/* 캐릭터 카드 */
+.char-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+.char-card{background:var(--s1);border:1px solid var(--br);border-radius:11px;padding:13px;display:flex;gap:10px;align-items:flex-start;}
+.char-emoji{width:42px;height:42px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.char-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.char-desc{font-size:11px;color:var(--mu);line-height:1.5;}
+
+/* 왜봉이 팩폭 */
+.waebong-wrap{background:linear-gradient(135deg,#CC333315,#CC333305);border:1px solid #CC333340;border-radius:12px;padding:16px;margin-bottom:20px;}
+.wb-wrap-ttl{font-size:14px;font-weight:900;color:#FF7777;margin-bottom:10px;}
+.wb-wrap-txt{font-size:13px;color:#ccc;line-height:1.8;}
+.wb-btn{display:block;background:var(--r);color:#fff;text-align:center;padding:12px;border-radius:8px;font-weight:700;font-size:13px;margin-top:14px;cursor:pointer;border:none;width:100%;font-family:'Noto Sans KR',sans-serif;}
+
+/* 개봉예정 */
+.rel-list{display:flex;flex-direction:column;gap:10px;}
+.rel-item{background:var(--s1);border:1px solid var(--br);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;}
+.rel-item.hot{border-color:var(--r);}
+.rdate{text-align:center;flex-shrink:0;width:44px;}
+.rmon{font-size:9px;font-weight:700;color:var(--mu);letter-spacing:1px;}
+.rday{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--y);line-height:1;}
+.rdiv{width:1px;height:40px;background:var(--br);flex-shrink:0;}
+.rinfo{flex:1;min-width:0;}
+.rttl{font-size:13px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rdesc{font-size:11px;color:var(--mu);}
+.rbadge{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:4px;white-space:nowrap;}
+.rbadge.hot{background:#CC333320;color:#FF7777;border:1px solid #CC333340;}
+.rbadge.soon{background:#FFB80015;color:var(--y);border:1px solid #FFB80030;}
+
+/* 광장 */
+.req-sec{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:18px;margin-bottom:14px;}
+.req-ttl{font-size:15px;font-weight:900;color:var(--y);margin-bottom:3px;}
+.req-desc{font-size:11px;color:var(--mu);margin-bottom:12px;}
+.req-form{display:flex;gap:8px;margin-bottom:12px;}
+.req-input{flex:1;min-width:0;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--tx);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.req-input:focus{border-color:var(--y);}
+.req-input::placeholder{color:var(--mu);}
+.req-btn{background:var(--y);color:var(--b);border:none;border-radius:8px;padding:9px 13px;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.req-list{display:flex;flex-direction:column;gap:7px;}
+.req-item{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--s2);border-radius:8px;border:1px solid var(--br);}
+.req-rank{font-family:'Oswald',sans-serif;font-size:13px;color:var(--mu);width:18px;text-align:center;flex-shrink:0;}
+.req-rank.top{color:var(--y);}
+.req-inner{flex:1;min-width:0;}
+.req-name{font-size:12px;font-weight:700;margin-bottom:3px;}
+.req-bar{height:2px;background:var(--br);border-radius:2px;overflow:hidden;}
+.req-fill{height:100%;background:var(--y);border-radius:2px;transition:width .4s;}
+.req-cnt{font-size:10px;color:var(--mu);flex-shrink:0;white-space:nowrap;}
+.req-vote{background:none;border:1px solid var(--br);border-radius:5px;padding:4px 8px;color:var(--mu);font-family:'Noto Sans KR',sans-serif;font-size:10px;cursor:pointer;transition:all .2s;flex-shrink:0;white-space:nowrap;}
+.req-vote:hover,.req-vote:active{border-color:var(--y);color:var(--y);}
+.req-vote.voted{background:#FFB80020;border-color:var(--y);color:var(--y);}
+
+.rev-sec{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:18px;margin-bottom:14px;}
+.rev-ttl{font-size:15px;font-weight:900;color:var(--y);margin-bottom:3px;}
+.rev-desc{font-size:11px;color:var(--mu);margin-bottom:12px;}
+.rev-form{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.rev-row{display:flex;gap:7px;}
+.rev-input{flex:1;min-width:0;background:var(--s2);border:1px solid var(--br);border-radius:8px;padding:9px 12px;color:var(--tx);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.rev-input:focus{border-color:var(--y);}
+.rev-input::placeholder{color:var(--mu);}
+.rev-submit{background:var(--y);color:var(--b);border:none;border-radius:8px;padding:9px 13px;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.rev-list{display:flex;flex-direction:column;gap:7px;}
+.rev-item{background:var(--s2);border-radius:10px;padding:10px 12px;border:1px solid var(--br);display:flex;gap:9px;align-items:flex-start;}
+.rev-face{font-size:18px;flex-shrink:0;}
+.rev-con{flex:1;min-width:0;}
+.rev-movie{font-size:10px;color:var(--y);font-weight:700;margin-bottom:2px;}
+.rev-text{font-size:12px;line-height:1.5;word-break:break-all;}
+.rev-like{background:none;border:1px solid var(--br);border-radius:5px;padding:3px 7px;color:var(--mu);font-size:10px;cursor:pointer;margin-top:5px;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.rev-like.liked{background:#CC333320;border-color:#CC3333;color:#FF7777;}
+
+.share-sec{background:linear-gradient(135deg,#FFB80012,#FFB80005);border:1px solid #FFB80035;border-radius:14px;padding:18px;text-align:center;}
+.share-ttl{font-size:15px;font-weight:900;color:var(--y);margin-bottom:4px;}
+.share-desc{font-size:12px;color:var(--mu);margin-bottom:14px;}
+.share-preview{background:var(--b);border:2px solid var(--y);border-radius:12px;padding:14px;margin:0 auto 14px;max-width:280px;}
+.sp-logo{font-size:11px;font-weight:700;color:var(--y);letter-spacing:2px;margin-bottom:3px;}
+.sp-msg{font-size:15px;font-weight:900;margin-bottom:2px;}
+.sp-sub{font-size:11px;color:var(--mu);}
+.sp-badge{display:inline-block;background:var(--y);color:var(--b);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:6px;}
+.share-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.share-btn{padding:9px 16px;border-radius:8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;}
+.share-kakao{background:#FEE500;color:#3A1D1D;}
+.share-copy{background:var(--s1);color:var(--tx);border:1px solid var(--br)!important;}
+
+/* 토스트 */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:#222;border:1px solid var(--y);color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:24px;z-index:9999;transition:transform .28s,opacity .28s;opacity:0;pointer-events:none;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+footer{background:var(--b);border-top:1px solid var(--br);padding:16px 20px;text-align:center;font-size:11px;color:var(--mu);margin-top:32px;}
+footer strong{color:var(--y);}
+
+@media(min-width:600px){
+  .hero,.dday-top,.dday-bot,.sec,.detail-body,.detail-hero{padding-left:32px;padding-right:32px;}
+  .detail-hero{padding-top:32px;padding-bottom:32px;}
+  .howto{gap:14px;}
+  .cgrid{gap:14px;}
+  .char-grid{grid-template-columns:repeat(3,1fr);}
+  .rev-form{flex-direction:row;}
+}
+@media(max-width:380px){
+  .dday-box{min-width:34px;padding:4px 5px;}
+  .dday-n{font-size:16px;}
+  .cgrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="logo-row">
+    <div class="logo-sym">🎬</div>
+    <div><div class="logo-kr">씬픽</div><div class="logo-en">ScenePic</div></div>
+  </div>
+  <div class="hero-hook">못 봤어도 괜찮아. <em>씬픽이 다 봤거든.</em></div>
+  <div class="hero-act">영화관 가기 전, <strong>딱 3분만.</strong></div>
+</div>
+
+<!-- D-DAY -->
+<div class="dday">
+  <div class="dday-top">
+    <span class="dday-lbl">🔥 HOT</span>
+    <span class="dday-ttl">🧸 토이스토리 5 — 씬픽 완전정복 오픈!</span>
+  </div>
+  <div class="dday-bot">
+    <div class="dday-cnt">
+      <div class="dday-box"><div class="dday-n" id="dd-d">18</div><div class="dday-u">DAYS</div></div>
+      <div class="dday-sep">:</div>
+      <div class="dday-box"><div class="dday-n" id="dd-h">00</div><div class="dday-u">HRS</div></div>
+      <div class="dday-sep">:</div>
+      <div class="dday-box"><div class="dday-n" id="dd-m">00</div><div class="dday-u">MIN</div></div>
+      <div class="dday-sep">:</div>
+      <div class="dday-box"><div class="dday-n" id="dd-s">00</div><div class="dday-u">SEC</div></div>
+    </div>
+    <button class="dday-cta" onclick="goMovie()">지금 픽하러 →</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <button class="nav-btn active" onclick="showTab('overview',this)">🗺 소개</button>
+  <button class="nav-btn" onclick="showTab('movie',this)">🎬 영화</button>
+  <button class="nav-btn" onclick="showTab('drama',this)">📺 드라마</button>
+  <button class="nav-btn" onclick="showTab('anime',this)">🎌 애니</button>
+  <button class="nav-btn" onclick="showTab('release',this)">📅 개봉예정</button>
+  <button class="nav-btn" onclick="showTab('community',this)">💬 광장</button>
+</nav>
+
+<!-- ══ 소개 ══ -->
+<div id="tab-overview" class="sec active">
+  <div class="sec-ttl">씬픽이 뭔데?</div>
+  <div class="sec-sub">안 본 시리즈, 3분이면 완전히 따라잡는다</div>
+  <div class="card-3min">
+    <div class="card-3min-ttl">⏱ 왜 하필 3분이야?</div>
+    <p style="font-size:13px;color:#ccc;line-height:1.8;position:relative;z-index:1;">
+      시리즈를 처음부터 다 보려면 수십 시간이 걸려.<br/>
+      근데 <strong style="color:var(--y)">영화관 가는 데 필요한 사전지식</strong>은 딱 세 가지야.<br/>
+      <strong style="color:#fff">① 주요 캐릭터 &nbsp;② 전편 핵심 스토리 &nbsp;③ 이번 편 포인트</strong><br/>
+      씬픽은 이 세 가지만 3분 안에 완벽하게 정리해줘.
+    </p>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><div class="step-lbl">캐릭터 파악</div><div class="step-desc">누가 주인공이고<br/>어떤 관계인지</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-lbl">스토리 흐름</div><div class="step-desc">전편에서<br/>무슨 일이 있었나</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-lbl">핵심 포인트</div><div class="step-desc">이번 편에서<br/>뭘 주목해야 하나</div></div>
+    </div>
+  </div>
+  <div class="howto">
+    <div class="howto-card"><div class="howto-ic">🎬</div><div class="howto-ttl">시리즈 선택</div><div class="howto-desc">영화·드라마·애니<br/>카테고리에서 바로 찾아</div></div>
+    <div class="howto-card"><div class="howto-ic">⚡</div><div class="howto-ttl">3분 핵심만</div><div class="howto-desc">캐릭터+스토리+포인트<br/>한 번에 정리</div></div>
+    <div class="howto-card"><div class="howto-ic">🍿</div><div class="howto-ttl">영화관 직행</div><div class="howto-desc">처음부터 본 것처럼<br/>2배로 즐길 수 있어</div></div>
+  </div>
+  <div class="waebong">
+    <div class="wb-face">😲</div>
+    <div><div class="wb-ttl">왜봉이가 대신 다 봤어</div><div class="wb-desc">씬픽 마스코트 왜봉이가 모든 시리즈를 직접 보고 B급 감성으로 핵심만 정리해줘.</div></div>
+  </div>
+</div>
+
+<!-- ══ 영화 ══ -->
+<div id="tab-movie" class="sec">
+  <div class="sec-ttl">🎬 영화 시리즈</div>
+  <div class="sec-sub">못 본 시리즈도 3분이면 완벽 이해</div>
+  <div class="cgrid">
+    <div class="ccard feat" onclick="showDetail('toy')">
+      <div class="cthumb toy">🧸<span class="fbadge">🔥 HOT</span></div>
+      <div class="cbody"><div class="cttl">토이스토리 시리즈</div><div class="cmeta">1995~2026 · 5편 · 픽사</div><div class="ctags"><span class="tag tag-r">D-18 개봉</span><span class="tag tag-y">전편 정리 완료</span></div><div class="ctime">⏱ 지금 바로 씬픽 →</div></div>
+    </div>
+    <div class="ccard">
+      <div class="cthumb marvel">🦸<span class="nbadge">준비중</span></div>
+      <div class="cbody"><div class="cttl">마블 MCU</div><div class="cmeta">2008~현재 · 30편+ · 마블</div><div class="ctags"><span class="tag tag-y">어벤져스</span><span class="tag tag-y">입문 가이드</span></div><div class="ctime">⏱ 곧 업데이트</div></div>
+    </div>
+    <div class="ccard">
+      <div class="cthumb harry">🧙<span class="nbadge">준비중</span></div>
+      <div class="cbody"><div class="cttl">해리포터 시리즈</div><div class="cmeta">2001~2011 · 8편 · 워너</div><div class="ctags"><span class="tag tag-y">전편 정리</span><span class="tag tag-y">드라마 대비</span></div><div class="ctime">⏱ 곧 업데이트</div></div>
+    </div>
+    <div class="coming"><div class="ci">➕</div><div class="cl">더 많은 시리즈 준비중</div><div>💬 광장에서 신청하면 우선 제작!</div></div>
+  </div>
+</div>
+
+<!-- ══ 드라마 ══ -->
+<div id="tab-drama" class="sec">
+  <div class="sec-ttl">📺 드라마 / OTT</div>
+  <div class="sec-sub">시즌 놓쳐도 괜찮아 — 3분이면 다시 따라잡아</div>
+  <div class="cgrid">
+    <div class="ccard"><div class="cthumb squid">🦑<span class="nbadge">준비중</span></div><div class="cbody"><div class="cttl">오징어게임</div><div class="cmeta">2021~현재 · 시즌2 · 넷플릭스</div><div class="ctags"><span class="tag tag-y">시즌1 복습</span><span class="tag tag-r">시즌2 직행</span></div><div class="ctime">⏱ 곧 업데이트</div></div></div>
+    <div class="ccard"><div class="cthumb stranger">👦<span class="nbadge">준비중</span></div><div class="cbody"><div class="cttl">기묘한 이야기</div><div class="cmeta">2016~현재 · 시즌4 · 넷플릭스</div><div class="ctags"><span class="tag tag-y">전 시즌 정리</span></div><div class="ctime">⏱ 곧 업데이트</div></div></div>
+    <div class="coming"><div class="ci">📺</div><div class="cl">드라마 콘텐츠 준비중</div><div>💬 광장에서 신청!</div></div>
+    <div class="coming"><div class="ci">➕</div><div class="cl">매주 새 콘텐츠 추가</div><div>목요일마다 업데이트</div></div>
+  </div>
+</div>
+
+<!-- ══ 애니 ══ -->
+<div id="tab-anime" class="sec">
+  <div class="sec-ttl">🎌 애니메이션</div>
+  <div class="sec-sub">1000화도 겁 없이 — 어디서부터 봐야 해? 씬픽이 알려줄게</div>
+  <div class="cgrid">
+    <div class="ccard"><div class="cthumb onepiece">🏴‍☠️<span class="nbadge">준비중</span></div><div class="cbody"><div class="cttl">원피스</div><div class="cmeta">1999~현재 · 1100화+ · 주간</div><div class="ctags"><span class="tag tag-y">입문 가이드</span><span class="tag tag-y">핵심 편 추천</span></div><div class="ctime">⏱ 곧 업데이트</div></div></div>
+    <div class="ccard"><div class="cthumb naruto">🍥<span class="nbadge">준비중</span></div><div class="cbody"><div class="cttl">나루토 + 보루토</div><div class="cmeta">1999~현재 · 완결 + 후속작</div><div class="ctags"><span class="tag tag-y">전편 흐름</span><span class="tag tag-y">보루토 연결</span></div><div class="ctime">⏱ 곧 업데이트</div></div></div>
+    <div class="coming"><div class="ci">🎌</div><div class="cl">드래곤볼 시리즈</div><div>업데이트 예정</div></div>
+    <div class="coming"><div class="ci">➕</div><div class="cl">원하는 애니 신청</div><div>💬 광장에서 요청!</div></div>
+  </div>
+</div>
+
+<!-- ══ 개봉예정 ══ -->
+<div id="tab-release" class="sec">
+  <div class="sec-ttl">📅 개봉예정</div>
+  <div class="sec-sub">개봉 전에 미리 픽해두면 영화관이 2배로 즐거워</div>
+  <div class="rel-list">
+    <div class="rel-item hot">
+      <div class="rdate"><div class="rmon">JUN</div><div class="rday">17</div></div>
+      <div class="rdiv"></div>
+      <div class="rinfo"><div class="rttl">🧸 토이스토리 5</div><div class="rdesc">씬픽 완전 정리 오픈 — 1~4편 몰라도 바로 즐길 수 있어</div></div>
+      <div class="rbadge hot">🔥 D-18</div>
+    </div>
+    <div class="rel-item">
+      <div class="rdate"><div class="rmon">JUL</div><div class="rday" style="font-size:18px;">TBA</div></div>
+      <div class="rdiv"></div>
+      <div class="rinfo"><div class="rttl">🦸 마블 신작</div><div class="rdesc">MCU 전편 흐름 정리 준비중</div></div>
+      <div class="rbadge soon">준비중</div>
+    </div>
+    <div class="rel-item">
+      <div class="rdate"><div class="rmon">2026</div><div class="rday" style="font-size:16px;">~</div></div>
+      <div class="rdiv"></div>
+      <div class="rinfo"><div class="rttl">🧙 해리포터 드라마</div><div class="rdesc">HBO 리메이크 대비 — 원작 전권 정리 예정</div></div>
+      <div class="rbadge soon">기획중</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 광장 ══ -->
+<div id="tab-community" class="sec">
+  <div class="sec-ttl">💬 씬픽 광장</div>
+  <div class="sec-sub">원하는 콘텐츠 신청하고, 왜봉이 한줄평도 남겨봐</div>
+  <div class="req-sec">
+    <div class="req-ttl">📬 씬픽 신청함</div>
+    <div class="req-desc">보고 싶은 영화·드라마·애니 알려줘! 투표 많은 순서대로 왜봉이가 직접 만들어줄게 👊</div>
+    <div class="req-form">
+      <input class="req-input" id="req-input" type="text" placeholder="예: 반지의 제왕, 블랙미러…" maxlength="30"/>
+      <button class="req-btn" onclick="submitReq()">신청 ✋</button>
+    </div>
+    <div class="req-list" id="req-list"></div>
+  </div>
+  <div class="rev-sec">
+    <div class="rev-ttl">😂 왜봉이 한줄평 공모</div>
+    <div class="rev-desc">씬픽하고 영화 본 소감을 B급 톤으로! 베스트 한줄평은 씬픽에 박제됨 👑</div>
+    <div class="rev-form">
+      <div class="rev-row">
+        <input class="rev-input" id="rev-movie" type="text" placeholder="어떤 영화/드라마?" style="max-width:140px;"/>
+        <input class="rev-input" id="rev-text" type="text" placeholder="왜봉이 톤으로 한줄평! (최대 40자)" maxlength="40"/>
+      </div>
+      <button class="rev-submit" onclick="submitRev()">등록 😤</button>
+    </div>
+    <div class="rev-list" id="rev-list"></div>
+  </div>
+  <div class="share-sec">
+    <div class="share-ttl">📢 친구한테 씬픽 소문내기</div>
+    <div class="share-desc">영화관 가기 전 단톡방에 던져봐. 팀플레이가 달라짐 ㅋㅋ</div>
+    <div class="share-preview">
+      <div class="sp-logo">🎬 씬픽 ScenePic</div>
+      <div class="sp-msg">못 봤어도 괜찮아.</div>
+      <div class="sp-sub">씬픽이 다 봤거든 — 영화관 가기 전 딱 3분만</div>
+      <div class="sp-badge">🧸 토이스토리 5 씬픽 완료!</div>
+    </div>
+    <div class="share-btns">
+      <button class="share-btn share-kakao" onclick="shareKakao()">💛 카카오톡</button>
+      <button class="share-btn share-copy" onclick="copyLink()">🔗 링크 복사</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     토이스토리 상세 페이지
+══════════════════════════════════ -->
+<div id="detail-toy" class="detail">
+  <div class="detail-hero">
+    <button class="detail-back" onclick="closeDetail()">← 목록으로</button>
+    <div class="detail-badge">🔥 D-18 · 6월 17일 개봉</div>
+    <div class="detail-ttl">🧸 토이스토리 완전정복</div>
+    <div class="detail-sub">1~4편 몰라도 5편 완벽 이해 — 딱 3분만 투자해</div>
+  </div>
+  <div class="detail-body">
+
+    <!-- 핵심요약 -->
+    <div class="summary-banner">
+      <div class="sb-ttl">⚡ 이것만 알면 5편 완벽 이해</div>
+      <div class="sb-points">
+        <div class="sb-point"><div class="sb-num">1</div><span>우디·버즈는 앤디의 장난감 — 주인에게 사랑받는 게 전부인 존재들이야</span></div>
+        <div class="sb-point"><div class="sb-num">2</div><span>앤디가 대학 가면서 장난감들을 보육원에 기증했고 우디만 대학에 가져가려 했어</span></div>
+        <div class="sb-point"><div class="sb-num">3</div><span>4편에서 우디는 새 주인 보니보다 포키를 더 챙기다가 결국 장난감 삶을 포기하고 앤티크 상점에 남아</span></div>
+        <div class="sb-point"><div class="sb-num">4</div><span>5편은 우디가 없는 상태에서 버즈·제시·나머지가 새로운 모험을 떠나는 이야기야</span></div>
+      </div>
+    </div>
+
+    <!-- 캐릭터 -->
+    <div class="sec-ttl" style="font-size:16px;margin-bottom:12px;">🎭 핵심 캐릭터</div>
+    <div class="char-grid" style="margin-bottom:20px;">
+      <div class="char-card"><div class="char-emoji">🤠</div><div><div class="char-name">우디</div><div class="char-desc">카우보이 인형. 리더. 4편 이후 앤티크 상점에 남음. 5편 합류 미정.</div></div></div>
+      <div class="char-card"><div class="char-emoji">🚀</div><div><div class="char-name">버즈 라이트이어</div><div class="char-desc">우주 레인저 인형. 우디의 절친. 5편 사실상 주인공.</div></div></div>
+      <div class="char-card"><div class="char-emoji">🤠</div><div><div class="char-name">제시</div><div class="char-desc">카우걸 인형. 버즈를 좋아함. 용감하고 활발함.</div></div></div>
+      <div class="char-card"><div class="char-emoji">🦕</div><div><div class="char-name">렉스</div><div class="char-desc">겁 많은 공룡 인형. 공포 많지만 중요한 순간엔 등장.</div></div></div>
+      <div class="char-card"><div class="char-emoji">🐷</div><div><div class="char-name">햄</div><div class="char-desc">돼지 저금통 인형. 입담 좋고 현실적.</div></div></div>
+      <div class="char-card"><div class="char-emoji">🍴</div><div><div class="char-name">포키 (4편~)</div><div class="char-desc">보니가 만든 포크+쓰레기 장난감. "나는 쓰레기야"를 외침. 5편 핵심 복선.</div></div></div>
+    </div>
+
+    <!-- 편별 타임라인 -->
+    <div class="sec-ttl" style="font-size:16px;margin-bottom:12px;">📖 편별 스토리 타임라인</div>
+    <div class="ep-list">
+      <div class="ep-card">
+        <div class="ep-header" onclick="toggleEp(this)">
+          <span class="ep-num">1편</span>
+          <span class="ep-year">1995</span>
+          <span class="ep-name">토이스토리</span>
+          <span class="ep-arrow">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-story">앤디 방에서 최고 인기 장난감이었던 우디. 근데 생일선물로 버즈 라이트이어가 들어오면서 위기가 시작돼. 우디가 버즈를 질투해서 선반에서 밀어버렸는데 오히려 둘 다 집을 잃어버려. 옆집 악당 아이 시드 집에서 탈출하며 우정이 싹트는 이야기.</div>
+          <div class="ep-key"><div class="ep-key-ttl">🔑 핵심 포인트</div><div class="ep-key-txt">우디와 버즈의 첫 만남 + 질투 → 우정으로 변하는 과정. "나는 장난감이다"를 받아들이는 버즈의 성장.</div></div>
+        </div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-header" onclick="toggleEp(this)">
+          <span class="ep-num">2편</span>
+          <span class="ep-year">1999</span>
+          <span class="ep-name">토이스토리 2</span>
+          <span class="ep-arrow">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-story">우디가 장난감 수집가 알의 손에 납치돼. 알고 보니 우디는 1950년대 TV 쇼 "우디의 라운드업" 주인공 캐릭터 인형이었고 일본 박물관에 팔릴 예정이야. 우디는 영원히 진열장 안에서 사랑받을 것인가 vs 앤디에게 돌아갈 것인가 갈등하다가 결국 앤디를 선택해.</div>
+          <div class="ep-key"><div class="ep-key-ttl">🔑 핵심 포인트</div><div class="ep-key-txt">제시·불스아이·스트링키 입단. "장난감은 버려진다"는 두려움 vs "지금 이 순간 사랑받는 게 더 가치 있다"는 메시지.</div></div>
+        </div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-header" onclick="toggleEp(this)">
+          <span class="ep-num">3편</span>
+          <span class="ep-year">2010</span>
+          <span class="ep-name">토이스토리 3</span>
+          <span class="ep-arrow">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-story">앤디가 17살, 대학 입학을 앞두고 있어. 장난감들은 쓰레기봉투 vs 다락방 vs 기증 기로에 서. 실수로 보육원 선샤인 데이케어에 기증됐는데 거기 짱 인형 로소는 사실 폭군이었어. 용광로 직전까지 몰리다 가까스로 탈출. 앤디는 장난감들을 보니라는 어린 소녀에게 직접 전달해줘.</div>
+          <div class="ep-key"><div class="ep-key-ttl">🔑 핵심 포인트</div><div class="ep-key-txt">시리즈 최고 명장면 — 용광로에서 서로 손 잡는 장면. "작별"의 아름다움. 앤디→보니로 주인 이전.</div></div>
+        </div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-header" onclick="toggleEp(this)">
+          <span class="ep-num">4편</span>
+          <span class="ep-year">2019</span>
+          <span class="ep-name">토이스토리 4</span>
+          <span class="ep-arrow">▼</span>
+        </div>
+        <div class="ep-body">
+          <div class="ep-story">보니가 유치원 오리엔테이션에서 쓰레기로 포키를 만들어. 포키는 자신을 쓰레기로 여겨 자꾸 탈출하려 해. 로드트립 중 앤티크 상점에서 우디의 옛 연인 보핍과 재회. 보핍은 자유로운 삶을 살고 있어. 우디는 결국 보니 곁으로 돌아가지 않고 보핍과 함께 앤티크 상점에 남는 충격적인 결말.</div>
+          <div class="ep-key"><div class="ep-key-ttl">🔑 핵심 포인트</div><div class="ep-key-txt">우디가 장난감 삶을 포기하고 자신의 길을 선택. 5편은 우디 없는 나머지 멤버들의 이야기가 돼.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5편 포인트 -->
+    <div class="waebong-wrap">
+      <div class="wb-wrap-ttl">😤 왜봉이 팩폭 — 5편 보기 전 이것만 기억해</div>
+      <div class="wb-wrap-txt">
+        리얼로 5편 핵심은 딱 세 가지임.<br/><br/>
+        <strong style="color:var(--y)">첫째,</strong> 우디 없음. 4편에서 혼자 잔류했으니까. 버즈가 사실상 리더야.<br/><br/>
+        <strong style="color:var(--y)">둘째,</strong> 보니는 이제 초등학생. 포키를 여전히 좋아하는데 새 장난감에 더 열광함.<br/><br/>
+        <strong style="color:var(--y)">셋째,</strong> "장난감은 버려진다"는 두려움이 5편에서 다시 중심 테마로 돌아와.<br/><br/>
+        이거 세 개만 알면 영화관에서 옆 사람한테 설명해줄 수 있음. 팩폭임.
+      </div>
+      <button class="wb-btn" onclick="showToast('씬픽 완료! 🎬 영화관 직행 GO!')">✅ 씬픽 완료 — 영화관 직행!</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer><strong>씬픽 ScenePic</strong> &nbsp;·&nbsp; 못 봤어도 괜찮아. 씬픽이 다 봤거든. &nbsp;·&nbsp; 이런건왜없지</footer>
+
+<script>
+// 탭 전환
+function showTab(name,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.detail').forEach(d=>d.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  document.getElementById('mainNav').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// 상세 페이지
+function showDetail(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.detail').forEach(d=>d.classList.remove('active'));
+  document.getElementById('detail-'+id).classList.add('active');
+  document.getElementById('mainNav').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeDetail(){
+  document.querySelectorAll('.detail').forEach(d=>d.classList.remove('active'));
+  document.getElementById('mainNav').style.display='flex';
+  showTab('movie',document.querySelectorAll('.nav-btn')[1]);
+}
+function goMovie(){
+  showTab('movie',document.querySelectorAll('.nav-btn')[1]);
+}
+
+// 편별 토글
+function toggleEp(header){
+  const body=header.nextElementSibling;
+  const arrow=header.querySelector('.ep-arrow');
+  const isOpen=body.classList.contains('open');
+  document.querySelectorAll('.ep-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.ep-arrow').forEach(a=>a.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');arrow.classList.add('open');}
+}
+
+// D-Day
+function updateDday(){
+  const t=new Date('2026-06-17T09:00:00+09:00');
+  const diff=t-new Date();
+  if(diff<=0){document.querySelector('.dday').innerHTML='<div style="padding:12px 16px;color:var(--y);font-weight:700;font-size:15px;">🎬 토이스토리 5 — 오늘 개봉! 씬픽하고 바로 GO! 🍿</div>';return;}
+  const p=n=>String(n).padStart(2,'0');
+  document.getElementById('dd-d').textContent=p(Math.floor(diff/86400000));
+  document.getElementById('dd-h').textContent=p(Math.floor(diff%86400000/3600000));
+  document.getElementById('dd-m').textContent=p(Math.floor(diff%3600000/60000));
+  document.getElementById('dd-s').textContent=p(Math.floor(diff%60000/1000));
+}
+setInterval(updateDday,1000);updateDday();
+
+// 토스트
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// 로컬스토리지 기반 신청함
+const REQ_KEY='scenepic_requests';
+const REV_KEY='scenepic_reviews';
+
+function loadReqs(){
+  try{return JSON.parse(localStorage.getItem(REQ_KEY))||[
+    {name:'반지의 제왕',count:47,voted:false},
+    {name:'진격의 거인',count:38,voted:false},
+    {name:'블랙미러',count:29,voted:false},
+    {name:'스타워즈',count:21,voted:false},
+  ];}catch{return[];}
+}
+function saveReqs(d){try{localStorage.setItem(REQ_KEY,JSON.stringify(d));}catch{}}
+
+let requests=loadReqs();
+function renderReqs(){
+  const max=Math.max(...requests.map(r=>r.count),1);
+  const sorted=[...requests].sort((a,b)=>b.count-a.count);
+  document.getElementById('req-list').innerHTML=sorted.map((r,i)=>`
+    <div class="req-item">
+      <div class="req-rank ${i<3?'top':''}">${i+1}</div>
+      <div class="req-inner">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+          <span class="req-name">${r.name}</span>
+          <span class="req-cnt">👋 ${r.count}명</span>
+        </div>
+        <div class="req-bar"><div class="req-fill" style="width:${Math.round(r.count/max*100)}%"></div></div>
+      </div>
+      <button class="req-vote ${r.voted?'voted':''}" onclick="voteReq(${requests.indexOf(r)})">${r.voted?'✅ 완료':'+ 원해'}</button>
+    </div>`).join('');
+}
+function voteReq(idx){
+  if(requests[idx].voted){showToast('이미 투표했어! 😤');return;}
+  requests[idx].count++;requests[idx].voted=true;
+  saveReqs(requests);renderReqs();showToast('투표 완료! 왜봉이한테 전달됐어 👊');
+}
+function submitReq(){
+  const val=document.getElementById('req-input').value.trim();
+  if(!val){showToast('제목을 입력해줘! 📝');return;}
+  if(requests.find(r=>r.name===val)){showToast('이미 있어! 투표해줘 👍');return;}
+  requests.push({name:val,count:1,voted:true});
+  document.getElementById('req-input').value='';
+  saveReqs(requests);renderReqs();showToast('신청 완료! 왜봉이가 검토할게 🎬');
+}
+
+// 로컬스토리지 기반 한줄평
+function loadRevs(){
+  try{return JSON.parse(localStorage.getItem(REV_KEY))||[
+    {face:'😲',movie:'토이스토리 4',text:'버즈가 왜 거기서 나와... 멘붕 실화냐',liked:false,likes:24},
+    {face:'😤',movie:'마블 어벤져스',text:'3시간 봤는데 씬픽 3분이 더 이해됨 팩폭',liked:false,likes:18},
+    {face:'😵',movie:'오징어게임 시즌1',text:'달고나 뽑기 그거 내 인생임 리얼로',liked:false,likes:15},
+  ];}catch{return[];}
+}
+function saveRevs(d){try{localStorage.setItem(REV_KEY,JSON.stringify(d));}catch{}}
+
+let reviews=loadRevs();
+function renderRevs(){
+  document.getElementById('rev-list').innerHTML=reviews.map((r,i)=>`
+    <div class="rev-item">
+      <div class="rev-face">${r.face}</div>
+      <div class="rev-con">
+        <div class="rev-movie">🎬 ${r.movie}</div>
+        <div class="rev-text">"${r.text}"</div>
+        <button class="rev-like ${r.liked?'liked':''}" onclick="likeRev(${i})">❤️ ${r.likes}</button>
+      </div>
+    </div>`).join('');
+}
+function likeRev(idx){
+  reviews[idx].liked=!reviews[idx].liked;
+  reviews[idx].likes+=reviews[idx].liked?1:-1;
+  saveRevs(reviews);renderRevs();
+}
+function submitRev(){
+  const movie=document.getElementById('rev-movie').value.trim();
+  const text=document.getElementById('rev-text').value.trim();
+  if(!movie||!text){showToast('영화 제목이랑 한줄평 둘 다 써줘! 😤');return;}
+  const faces=['😲','😤','😵','🤯','😭','😂'];
+  reviews.unshift({face:faces[Math.floor(Math.random()*faces.length)],movie,text,liked:false,likes:0});
+  document.getElementById('rev-movie').value='';
+  document.getElementById('rev-text').value='';
+  saveRevs(reviews);renderRevs();showToast('한줄평 등록! 베스트 되면 박제됨 👑');
+}
+
+// 공유
+function shareKakao(){showToast('카카오톡 공유 — 배포 후 SDK 연동!');}
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href).then(
+    ()=>showToast('🔗 링크 복사 완료! 단톡방에 던져봐 ㅋㅋ'),
+    ()=>showToast('링크: scenepic.kr')
+  );
+}
+
+renderReqs();renderRevs();
+</script>
+</body>
+</html>
